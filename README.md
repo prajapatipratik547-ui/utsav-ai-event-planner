@@ -22,6 +22,16 @@ Planning an Indian celebration means juggling a budget in lakhs, dozens of vendo
 | **Weddings, birthdays, community events** | 7 event types: wedding, engagement, birthday, anniversary, baby shower, festival (Diwali, Ganesh utsav, Navratri…) and community (society meets, fundraisers, reunions).                                                         |
 | _Beyond the brief_                        | Guest list & RSVP tracker with live catering estimate · AI planning assistant that knows your numbers · print/PDF · JSON export · dark mode · works offline.                                                                     |
 
+## Screenshots
+
+_Captured from the live deployment with real Google Gemini output._
+
+| Plan your celebration                                                                | Your plan at a glance                                                                   |
+| ------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------- |
+| ![Home page with the event form](docs/screenshots/home.png)                          | ![Plan overview with countdown, budget health and theme](docs/screenshots/overview.png) |
+| **Gemini-personalised ideas**                                                        | **Context-aware assistant**                                                             |
+| ![Theme, palette, Rajasthani menu, decor and activities](docs/screenshots/ideas.png) | ![Assistant answering from the user's real timeline](docs/screenshots/assistant.png)    |
+
 ## How the GenAI is used (and kept honest)
 
 ```mermaid
