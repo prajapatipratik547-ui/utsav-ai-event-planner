@@ -12,3 +12,6 @@ Thumbs.db
 !.vscode/extensions.json
 playwright-report/
 test-results/
+
+# Private submission notes (not for the public repo)
+SUBMISSION-KIT.md
