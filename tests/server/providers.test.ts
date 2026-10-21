@@ -186,20 +186,24 @@ describe('prompts', () => {
   });
 
   it('wraps assistant context in plan tags', () => {
-    const system = assistantSystemPrompt({
-      eventType: 'birthday',
-      title: 'T',
-      date: '2026-12-01',
-      city: 'Pune',
-      guests: 3,
-      budget: 9000,
-      style: 'modern',
-      diet: 'vegan',
-      language: 'hi',
-      daysUntil: 4,
-      budgetLines: [],
-      upcoming: [],
-    });
+    const system = assistantSystemPrompt(
+      {
+        eventType: 'birthday',
+        title: 'T',
+        date: '2026-12-01',
+        city: 'Pune',
+        guests: 3,
+        budget: 9000,
+        style: 'modern',
+        diet: 'vegan',
+        language: 'hi',
+        daysUntil: 4,
+        budgetLines: [],
+        upcoming: [],
+      },
+      '2026-10-21',
+    );
+    expect(system).toContain('Today is Wednesday, 21 October 2026');
     expect(system).toMatch(/<plan>\n\{.*\}\n<\/plan>/);
     expect(system).toMatch(/Hindi/);
   });

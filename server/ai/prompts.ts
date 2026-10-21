@@ -62,9 +62,10 @@ export function planUserPrompt(input: EventInput, baseline: EventPlan): string {
   ].join('\n');
 }
 
-export function assistantSystemPrompt(context: PlanContext): string {
+export function assistantSystemPrompt(context: PlanContext, today: string): string {
   return [
     'You are the Utsav planning assistant, helping one user with the event described in <plan>.',
+    `Today is ${formatLongDate(today)}. Write dates in words, for example "25 Oct 2026", never as YYYY-MM-DD.`,
     'Answer in at most 160 words of plain text. Use "- " bullets for lists. No markdown headings, tables, links or emojis.',
     'Use the numbers in <plan>; show money in rupees with Indian digit grouping (for example ₹1,50,000).',
     'Be specific and practical. If a question is unrelated to planning this event, reply briefly and steer back to the plan.',

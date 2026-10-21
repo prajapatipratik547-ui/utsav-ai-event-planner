@@ -146,7 +146,7 @@ export function createAssistantHandler(deps: HandlerDeps): Handler {
         async (provider, signal) => {
           const text = await provider.generateText(
             {
-              system: assistantSystemPrompt(context),
+              system: assistantSystemPrompt(context, resolveToday(undefined, deps.now())),
               messages,
               maxOutputTokens: 600,
               temperature: 0.5,
