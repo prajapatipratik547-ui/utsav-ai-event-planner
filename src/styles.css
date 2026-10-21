@@ -38,6 +38,38 @@
   --gutter: clamp(16px, 4vw, 40px);
 }
 
+/* Dark tokens apply for the OS preference without any script, and for an explicit choice. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --bg: #140d16;
+    --surface: #1e1521;
+    --surface-2: #281d2c;
+    --surface-3: #33263a;
+    --ink: #f6ede4;
+    --muted: #c9b8c4;
+    --border: #3d2f43;
+    --border-strong: #5a4762;
+    --primary: #ff8fab;
+    --primary-hover: #ffb3c5;
+    --on-primary: #2a0612;
+    --primary-soft: #3c1a26;
+    --marigold: #f6b93b;
+    --marigold-soft: #3a2a10;
+    --flame-core: #fff4d6;
+    --teal: #5eead4;
+    --success: #86efac;
+    --success-soft: #12301d;
+    --warning: #fcd34d;
+    --warning-soft: #3a2c08;
+    --danger: #fca5a5;
+    --danger-soft: #3d1414;
+    --focus: #8ab4f8;
+    --shadow: 0 1px 2px rgb(0 0 0 / 30%), 0 8px 24px -12px rgb(0 0 0 / 60%);
+    --shadow-lg: 0 24px 48px -24px rgb(0 0 0 / 70%);
+  }
+}
+
 :root[data-theme='dark'] {
   color-scheme: dark;
   --bg: #140d16;

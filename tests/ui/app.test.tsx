@@ -347,11 +347,16 @@ describe('plan dashboard', () => {
     expect(await screen.findByRole('heading', { name: /plan not found/i })).toBeInTheDocument();
   });
 
-  it('toggles the colour theme', async () => {
+  it('follows the OS theme until the user explicitly toggles it', async () => {
+    delete document.documentElement.dataset.theme;
     const { user } = renderApp();
+    expect(localStorage.getItem('utsav:theme')).toBeNull();
+    expect(document.documentElement.dataset.theme).toBeUndefined();
+
     const toggle = screen.getByRole('button', { name: /switch to dark theme/i });
     await user.click(toggle);
     expect(document.documentElement.dataset.theme).toBe('dark');
+    expect(localStorage.getItem('utsav:theme')).toBe('dark');
     expect(screen.getByRole('button', { name: /switch to light theme/i })).toBeInTheDocument();
   });
 });

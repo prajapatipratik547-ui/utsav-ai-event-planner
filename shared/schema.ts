@@ -11,6 +11,10 @@ import {
 import { isValidIsoDate } from './date.js';
 import { cleanUserText } from './text.js';
 
+// Zod otherwise probes `new Function()` to JIT-compile validators. Our CSP forbids eval,
+// so skip the probe entirely instead of triggering a security-policy violation.
+z.config({ jitless: true });
+
 const isoDate = z
   .string()
   .refine(isValidIsoDate, { message: 'Use a real calendar date (YYYY-MM-DD).' });

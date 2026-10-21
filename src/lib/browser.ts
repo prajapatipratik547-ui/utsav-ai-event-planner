@@ -1,4 +1,4 @@
-import { useEffect, useState, useSyncExternalStore } from 'react';
+import { useState, useSyncExternalStore } from 'react';
 import { todayIso } from '../../shared/date.js';
 
 export function uid(): string {
@@ -80,15 +80,21 @@ function initialTheme(): Theme {
   return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 
+/**
+ * CSS follows the OS preference on its own; only an explicit toggle is
+ * persisted, so users who never choose keep tracking their system setting.
+ */
 export function useTheme(): [Theme, () => void] {
   const [theme, setTheme] = useState<Theme>(initialTheme);
-  useEffect(() => {
-    document.documentElement.dataset.theme = theme;
+  const toggle = () => {
+    const next: Theme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(next);
+    document.documentElement.dataset.theme = next;
     try {
-      localStorage.setItem(THEME_KEY, theme);
+      localStorage.setItem(THEME_KEY, next);
     } catch {
       /* storage unavailable */
     }
-  }, [theme]);
-  return [theme, () => setTheme((t) => (t === 'dark' ? 'light' : 'dark'))];
+  };
+  return [theme, toggle];
 }

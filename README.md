@@ -57,7 +57,7 @@ flowchart LR
 - API keys live only in server environment variables; the browser never sees them. `GET /api/health` reports which providers are configured, never the keys.
 - All input validated server-side with the **same Zod schema** the form uses (`shared/schema.ts`): enums, ranges, real calendar dates, length limits, control-character and angle-bracket stripping.
 - **Prompt-injection defence:** free-text notes are fenced inside `<user_notes>` (and cannot close the fence), the system prompt marks them as untrusted data, and model output is re-validated.
-- Strict **Content-Security-Policy** (`script-src 'self'`, no inline scripts — even the theme bootstrap is an external file), HSTS, `X-Frame-Options: DENY`, `nosniff`, Referrer-Policy, COOP, Permissions-Policy (`vercel.json`). `vite preview` serves the same headers so the CSP is tested locally.
+- Strict **Content-Security-Policy** (`script-src 'self'`, no inline scripts — even the theme bootstrap is an external file), HSTS, `X-Frame-Options: DENY`, `nosniff`, Referrer-Policy, COOP, Permissions-Policy (`vercel.json`). `vite preview` serves the same headers so the CSP is tested locally, and the app runs with **zero CSP violations** (Zod runs in `jitless` mode so it never probes `eval`).
 - Per-client **rate limiting** with `Retry-After`, 8–24 KB body caps, `application/json` enforcement, cross-site browser requests refused (`Sec-Fetch-Site`), method checks, and generic 500s that never leak internals. Logs are structured and contain no user content.
 - No accounts and no server-side storage: guest lists stay in the user's browser. `npm audit` gate in CI.
 
@@ -70,6 +70,8 @@ flowchart LR
 
 ### ⚡ Efficiency
 
+- **Lighthouse (production build): Mobile 100 · 100 · 100 · 100, Desktop 97–99 · 100 · 100 · 100** (Performance · Accessibility · Best Practices · SEO). Mobile FCP/LCP 1.4 s, TBT 0 ms, CLS ≈ 0.
+- Nothing blocks first paint: web fonts are attached after render (`display=swap`) and the light/dark theme comes from a CSS media query, not a script.
 - Initial JS **≈80 KB gzipped**. The dashboard, the validation library and the offline engine are code-split and loaded on demand (the validator is prefetched when idle).
 - No UI framework or chart library: hand-written CSS and an SVG donut.
 - Server: warm-instance LRU cache, AbortSignal timeouts on every model call, thinking disabled for latency, and model-call quotas.

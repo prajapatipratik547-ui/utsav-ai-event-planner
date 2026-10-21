@@ -1,17 +1,13 @@
-// Applies the saved or system colour theme before first paint (no flash).
+// Re-applies a theme the visitor explicitly chose. The OS preference needs no
+// script: styles.css handles it with a prefers-color-scheme media query.
 // Loaded as an external file so the Content-Security-Policy can forbid inline scripts.
 (function () {
-  var theme;
   try {
-    theme = localStorage.getItem('utsav:theme');
+    var theme = localStorage.getItem('utsav:theme');
+    if (theme === 'light' || theme === 'dark') {
+      document.documentElement.setAttribute('data-theme', theme);
+    }
   } catch (e) {
-    theme = null;
+    /* storage unavailable: fall back to the OS preference */
   }
-  if (theme !== 'light' && theme !== 'dark') {
-    theme =
-      window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
-        ? 'dark'
-        : 'light';
-  }
-  document.documentElement.setAttribute('data-theme', theme);
 })();
