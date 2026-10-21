@@ -39,7 +39,7 @@ describe('parseEnhancement', () => {
       tips: Array.from({ length: 20 }, () => 'x'.repeat(500)),
     });
     expect(parsed?.tips).toHaveLength(6);
-    expect(parsed?.tips[0]).toHaveLength(200);
+    expect(parsed?.tips[0]).toHaveLength(260);
   });
 
   it('keeps valid extra tasks and discards malformed ones', () => {

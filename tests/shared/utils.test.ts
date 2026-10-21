@@ -9,7 +9,7 @@ import {
 } from '../../shared/format.js';
 import { buildIcs, escapeIcsText, foldIcsLine } from '../../shared/ics.js';
 import { eventInputSchema, fieldErrors, assistantRequestSchema } from '../../shared/schema.js';
-import { cleanModelText, cleanUserText, slugify } from '../../shared/text.js';
+import { cleanModelText, cleanUserText, slugify, truncateWords } from '../../shared/text.js';
 import { makeInput } from '../fixtures.js';
 
 describe('date helpers', () => {
@@ -78,6 +78,18 @@ describe('text sanitising', () => {
 
   it('removes links from model text', () => {
     expect(cleanModelText('See www.scam.example and https://x.y/z ok', 100)).toBe('See and ok');
+  });
+
+  it('truncates model text at a word boundary with an ellipsis', () => {
+    const text = 'Inspired by the vibrant textiles of Rajasthan for a grand celebration';
+    const out = truncateWords(text, 50);
+    expect(out.length).toBeLessThanOrEqual(50);
+    expect(out).toBe('Inspired by the vibrant textiles of Rajasthan…');
+    expect(truncateWords('short', 50)).toBe('short');
+    expect(truncateWords('x'.repeat(30), 10)).toBe('x'.repeat(9) + '…');
+    expect(cleanModelText('Arrange seating, ramps and wheelchairs for elderly guests', 40)).toBe(
+      'Arrange seating, ramps and wheelchairs…',
+    );
   });
 
   it('slugifies unicode titles', () => {

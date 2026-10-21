@@ -24,13 +24,27 @@ export function cleanUserText(value: string, maxLength: number): string {
  * markup characters and control characters, then clips it to a safe length.
  */
 export function cleanModelText(value: string, maxLength: number): string {
-  return value
-    .replace(URLS, '')
-    .replace(CONTROL_CHARS, '')
-    .replace(ANGLE_BRACKETS, '')
-    .replace(WHITESPACE_RUNS, ' ')
-    .trim()
-    .slice(0, maxLength);
+  return truncateWords(
+    value
+      .replace(URLS, '')
+      .replace(CONTROL_CHARS, '')
+      .replace(ANGLE_BRACKETS, '')
+      .replace(WHITESPACE_RUNS, ' ')
+      .trim(),
+    maxLength,
+  );
+}
+
+/**
+ * Shortens text to at most `maxLength` characters without cutting a word in
+ * half, ending with an ellipsis. Falls back to a hard cut for unbroken text.
+ */
+export function truncateWords(value: string, maxLength: number): string {
+  if (value.length <= maxLength) return value;
+  const hard = value.slice(0, maxLength - 1);
+  const lastSpace = hard.lastIndexOf(' ');
+  const cut = lastSpace >= maxLength * 0.6 ? hard.slice(0, lastSpace) : hard;
+  return `${cut.replace(/[\s,;:.\-–—]+$/, '')}…`;
 }
 
 export function slugify(value: string): string {

@@ -44,16 +44,16 @@ const list = (maxItems: number, maxLength: number) =>
     );
 
 const extraTaskSchema = z.object({
-  title: text(90),
+  title: text(140),
   category: z.enum(TASK_CATEGORIES).catch('planning'),
   daysBefore: z.number().int().min(0).max(400),
 });
 
 const enhancementSchema = z.object({
-  summary: text(600),
+  summary: text(700),
   theme: z.object({
     name: text(60),
-    description: text(240),
+    description: text(400),
     palette: z
       .array(z.unknown())
       .catch([])
@@ -61,11 +61,11 @@ const enhancementSchema = z.object({
         items.filter((c): c is string => typeof c === 'string' && HEX.test(c.trim())).slice(0, 5),
       ),
   }),
-  decor: list(6, 160),
-  menu: list(8, 160),
-  activities: list(6, 160),
-  favors: list(5, 120),
-  tips: list(6, 200),
+  decor: list(6, 220),
+  menu: list(8, 220),
+  activities: list(6, 220),
+  favors: list(5, 160),
+  tips: list(6, 260),
   budgetEmphasis: z
     .record(z.string(), z.unknown())
     .catch({})
@@ -109,12 +109,18 @@ export function parseEnhancement(raw: unknown): AiEnhancement | null {
 export const ENHANCEMENT_JSON_SCHEMA = {
   type: 'object',
   properties: {
-    summary: { type: 'string', description: 'Two or three warm sentences summarising the plan.' },
+    summary: {
+      type: 'string',
+      description: 'Two or three warm sentences summarising the plan (under 500 characters).',
+    },
     theme: {
       type: 'object',
       properties: {
-        name: { type: 'string' },
-        description: { type: 'string' },
+        name: { type: 'string', description: 'Short evocative theme name (under 50 characters).' },
+        description: {
+          type: 'string',
+          description: 'One or two sentences (under 300 characters).',
+        },
         palette: {
           type: 'array',
           items: { type: 'string', description: 'Hex colour like #A1B2C3' },
@@ -124,11 +130,36 @@ export const ENHANCEMENT_JSON_SCHEMA = {
       },
       required: ['name', 'description', 'palette'],
     },
-    decor: { type: 'array', items: { type: 'string' }, minItems: 3, maxItems: 6 },
-    menu: { type: 'array', items: { type: 'string' }, minItems: 3, maxItems: 8 },
-    activities: { type: 'array', items: { type: 'string' }, minItems: 3, maxItems: 6 },
-    favors: { type: 'array', items: { type: 'string' }, minItems: 2, maxItems: 5 },
-    tips: { type: 'array', items: { type: 'string' }, minItems: 3, maxItems: 6 },
+    decor: {
+      type: 'array',
+      items: { type: 'string', description: 'One concise idea (under 160 characters).' },
+      minItems: 3,
+      maxItems: 6,
+    },
+    menu: {
+      type: 'array',
+      items: { type: 'string', description: 'One concise idea (under 160 characters).' },
+      minItems: 3,
+      maxItems: 8,
+    },
+    activities: {
+      type: 'array',
+      items: { type: 'string', description: 'One concise idea (under 160 characters).' },
+      minItems: 3,
+      maxItems: 6,
+    },
+    favors: {
+      type: 'array',
+      items: { type: 'string', description: 'One concise idea (under 160 characters).' },
+      minItems: 2,
+      maxItems: 5,
+    },
+    tips: {
+      type: 'array',
+      items: { type: 'string', description: 'One concise idea (under 160 characters).' },
+      minItems: 3,
+      maxItems: 6,
+    },
     budgetEmphasis: {
       type: 'object',
       description:
@@ -143,7 +174,11 @@ export const ENHANCEMENT_JSON_SCHEMA = {
       items: {
         type: 'object',
         properties: {
-          title: { type: 'string' },
+          title: {
+            type: 'string',
+            description:
+              'Short imperative task, e.g. "Book Rajasthani folk musicians" (under 90 characters).',
+          },
           category: { type: 'string', enum: [...TASK_CATEGORIES] },
           daysBefore: { type: 'integer' },
         },

@@ -3,7 +3,7 @@
 > **PromptWars Virtual · Challenge 5 — Celebration & Event Planner**
 > A GenAI-powered planning assistant that helps people organise **weddings, birthdays and community events** with **budgets, timelines, vendor checklists and personalised ideas**.
 
-**Live app:** _coming with the first deploy_ · **Stack:** React 19 · TypeScript · Vite · Vercel Functions · Google Gemini (`@google/genai`) · Groq fallback · Zod
+**Live app:** [https://utsav-ai-event-planner.vercel.app](https://utsav-ai-event-planner.vercel.app) · **Stack:** React 19 · TypeScript · Vite · Vercel Functions · Google Gemini (`@google/genai`) · Groq fallback · Zod
 
 [![CI](https://github.com/prajapatipratik547-ui/utsav-ai-event-planner/actions/workflows/ci.yml/badge.svg)](https://github.com/prajapatipratik547-ui/utsav-ai-event-planner/actions/workflows/ci.yml)
 
